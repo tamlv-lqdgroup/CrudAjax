@@ -1,0 +1,70 @@
+﻿USE [crudajax]
+GO
+/****** Object:  Table [dbo].[Employee]    Script Date: 5/6/2021 3:36:02 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Employee](
+	[EmployeeID] [int] IDENTITY(1,1) NOT NULL,
+	[EmployeeName] [nvarchar](50) NULL,
+	[Age] [int] NULL,
+	[EmployeeState] [nvarchar](50) NULL,
+	[Country] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED 
+(
+	[EmployeeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  StoredProcedure [dbo].[DeleteEmployee]    Script Date: 5/6/2021 3:36:03 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create procedure [dbo].[DeleteEmployee]
+(
+	@Id integer 
+)
+as
+begin 
+	delete Employee where EmployeeID = @Id;
+end
+GO
+/****** Object:  StoredProcedure [dbo].[InsertUpdateEmployee]    Script Date: 5/6/2021 3:36:03 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE procedure [dbo].[InsertUpdateEmployee]
+(
+	@Id integer,
+	@Name nvarchar(50),
+	@Age integer,
+	@State nvarchar(50),
+	@Country nvarchar(50),
+	@Action varchar(10)
+)
+as 
+begin
+	if(@Action = 'Insert')
+	Begin
+		insert into Employee(EmployeeName,Age,EmployeeState,Country) values (@Name,@Age,@State,@Country);
+	end
+	if(@Action = 'Update')
+	Begin 
+		update Employee set EmployeeName = @Name, Age = @Age, EmployeeState = @State, Country = @Country where EmployeeId =@Id;
+	end
+end
+GO
+/****** Object:  StoredProcedure [dbo].[SelectEmployee]    Script Date: 5/6/2021 3:36:03 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE procedure [dbo].[SelectEmployee]
+as
+begin 
+	select * from Employee;
+end
+GO
